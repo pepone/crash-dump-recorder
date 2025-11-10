@@ -14,9 +14,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: List Tools
+      - name: Install Debugging Tools via Visual Studio Installer
         shell: pwsh
         run: |
-          # List all tools installed under C:\Program Files (x86)\Windows Kits\10\
-          Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\" -Recurse | Select-Object FullName
+          $vsInstaller = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vs_installer.exe"
+          $vsPath = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise"
+
+          if (-not (Test-Path $vsInstaller)) {
+            Write-Host "Visual Studio Installer not found"
+            exit 1
+          }
+
+          Write-Host "Installing Debugging Tools for Windows..."
+          & $vsInstaller modify `
+            --installPath "$vsPath" `
+            --add Microsoft.VisualStudio.Component.Windows10SDK.DebugTools `
+            --quiet --norestart --nocache
+
+          Write-Host "Checking for cdb.exe..."
+          Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\cdb.exe" -ErrorAction SilentlyContinue
