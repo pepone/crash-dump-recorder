@@ -1,0 +1,22 @@
+
+name: ci
+description: GitHub Actions CI workflow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2025
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: List Tools
+        shell: pwsh
+        run: |
+          # List all tools installed under C:\Program Files (x86)\Windows Kits\10\
+          Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\Tools\" -Recurse | Select-Object FullName
