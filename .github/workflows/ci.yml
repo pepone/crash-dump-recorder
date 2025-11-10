@@ -19,7 +19,7 @@ jobs:
           $sdk = "$env:TEMP\sdksetup.exe"
           Invoke-WebRequest -Uri "https://go.microsoft.com/fwlink/?linkid=2338977" -OutFile $sdk
           Write-Host "Installing Debugging Tools..."
-          & $sdk /quiet /norestart /features OptionId.WindowsDesktopDebuggers /log sdk.log
+          & $sdk /quiet /norestart /features + /log sdk.log
 
           Write-Host "Installation complete."
 
