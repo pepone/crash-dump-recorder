@@ -17,6 +17,4 @@ jobs:
         shell: pwsh
         run: |
           winget install --id Microsoft.WinDbg -e --accept-source-agreements --accept-package-agreements
-
-          Write-Host "Checking for cdb.exe..."
-          Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\" -Recurse | Select-Object FullName
+          Get-Command cdb.exe | Format-List
