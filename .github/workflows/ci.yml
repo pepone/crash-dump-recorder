@@ -19,12 +19,7 @@ jobs:
           $sdk = "$env:TEMP\sdksetup.exe"
           Invoke-WebRequest -Uri "https://go.microsoft.com/fwlink/?linkid=2338977" -OutFile $sdk
           Write-Host "Installing Debugging Tools..."
-          & $sdk /quiet /norestart /features OptionId.WindowsDesktopDebuggers /log "$env:TEMP\sdk.log"
-
-          if ($LASTEXITCODE -ne 0) {
-              Write-Error "SDK installation failed with exit code $LASTEXITCODE"
-              exit $LASTEXITCODE
-          }
+          & $sdk /quiet /norestart /features OptionId.WindowsDesktopDebuggers /log sdk.log
 
           Write-Host "Installation complete."
 
@@ -36,4 +31,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: sdk-install-log
-          path: ${{ runner.temp }}/sdk.log
+          path: sdk.log
